@@ -25,7 +25,7 @@ O projeto foi desenvolvido com as seguintes tecnologias e ferramentas:
 6. **HTML5**:
 - A estrutura de marcação da aplicação é baseada em HTML5, garantindo uma boa semântica e acessibilidade.
 7. **CSS (Flexbox e Grid)**:
-   - Para o layout da plataforma, foram usadas tecnologias de layout modernas como Flexbox e Grid. Essas tecnologias permitem criar layouts responsivos e dinâmicos que se adaptam a diferentes tamanhos de tela.
+- Para o layout da plataforma, foram usadas tecnologias de layout modernas como Flexbox e Grid. Essas tecnologias permitem criar layouts responsivos e dinâmicos que se adaptam a diferentes tamanhos de tela.
 
 
 ## 🤝 Colaboradores
@@ -37,6 +37,7 @@ O projeto foi desenvolvido com as seguintes tecnologias e ferramentas:
 | Matheus Cerciari Reis         | 565817  |
 | Henrique Vicente Vicenterm    | 564116  |
 | Arthur Gaspare Gil            | 555746  |
+
 
 
 
