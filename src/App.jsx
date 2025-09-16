@@ -62,17 +62,12 @@ function Header() {
           <NavLink to="/noticias">Notícias</NavLink>
           <NavLink to="/historia">História</NavLink>
 
+          {/* botão "Inscrição" agora leva para a lista (/inscricoes) */}
           <Link
-            to="/inscricao"
+            to="/inscricoes"
             className="bg-purple text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition-all"
           >
             Inscrição
-          </Link>
-          <Link
-            to="/inscricoes"
-            className="text-purple-600 font-semibold hover:text-purple-700"
-          >
-            Inscrições Realizadas
           </Link>
         </nav>
 
@@ -117,7 +112,10 @@ function MobileMenu() {
           <Link onClick={() => setOpen(false)} to="/times" className="px-2 py-2 rounded hover:bg-gray-100">Times</Link>
           <Link onClick={() => setOpen(false)} to="/noticias" className="px-2 py-2 rounded hover:bg-gray-100">Notícias</Link>
           <Link onClick={() => setOpen(false)} to="/historia" className="px-2 py-2 rounded hover:bg-gray-100">História</Link>
-          <Link onClick={() => setOpen(false)} to="/inscricao" className="px-2 py-2 rounded bg-purple text-white text-center">Inscrição</Link>
+          
+          {/* aqui também corrigido para /inscricoes */}
+          <Link onClick={() => setOpen(false)} to="/inscricoes" className="px-2 py-2 rounded bg-purple text-white text-center">Inscrição</Link>
+          
           <Link onClick={() => setOpen(false)} to="/inscricoes" className="px-2 py-2 rounded hover:bg-gray-100 text-center">Inscrições Realizadas</Link>
         </div>
       )}

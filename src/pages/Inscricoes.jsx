@@ -1,7 +1,6 @@
 // src/pages/Inscricoes.jsx
 import React, { useEffect, useState } from "react";
-import "../App.css";
-import "../index.css";
+import { useNavigate } from "react-router-dom";
 
 function getInscricoesFromStorage() {
   try {
@@ -13,6 +12,7 @@ function getInscricoesFromStorage() {
 
 export default function Inscricoes() {
   const [inscricoes, setInscricoes] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setInscricoes(getInscricoesFromStorage());
@@ -20,7 +20,7 @@ export default function Inscricoes() {
 
   return (
     <div>
-      {/* HERO - ocupa 100% da largura */}
+      {/* HERO */}
       <section
         className="w-screen text-center py-16 relative left-1/2 -translate-x-1/2"
         style={{
@@ -32,14 +32,14 @@ export default function Inscricoes() {
           Faça parte da história do futebol feminino brasileiro. Inscreva-se agora!
         </p>
         <button
-          onClick={() => (window.location.hash = "/formulario-inscricao")}
+          onClick={() => navigate("/inscricao")}
           className="mt-6 px-8 py-3 rounded-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold shadow-lg transition-all"
         >
           Fazer Inscrição
         </button>
       </section>
 
-      {/* LISTA DE INSCRIÇÕES */}
+      {/* LISTA */}
       <section className="px-6 py-12 text-center">
         <h2 className="text-3xl font-extrabold text-purple mb-2">
           Inscrições Realizadas ({inscricoes.length})

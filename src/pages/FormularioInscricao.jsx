@@ -1,3 +1,4 @@
+// src/pages/FormularioInscricao.jsx
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -11,7 +12,6 @@ function getInscricoesFromStorage() {
 
 export default function FormularioInscricao() {
   const navigate = useNavigate();
-
   const [form, setForm] = useState({
     nome: "",
     email: "",
@@ -27,14 +27,14 @@ export default function FormularioInscricao() {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setForm((p) => ({ ...p, [name]: value }));
+    setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (!form.nome.trim() || !form.email.trim()) {
-      setMensagem("Por favor preencha Nome e Email.");
+      setMensagem("Por favor, preencha Nome e Email.");
       return;
     }
 
@@ -49,18 +49,8 @@ export default function FormularioInscricao() {
     localStorage.setItem("inscricoes", JSON.stringify(inscricoes));
 
     alert("✅ Inscrição enviada com sucesso!");
-    setForm({
-      nome: "",
-      email: "",
-      nascimento: "",
-      telefone: "",
-      posicao: "",
-      experiencia: "",
-      time: "",
-      observacoes: "",
-    });
 
-    navigate("/inscricoes");
+    navigate("/inscricoes"); // volta para lista
   };
 
   return (
@@ -73,9 +63,9 @@ export default function FormularioInscricao() {
             "linear-gradient(90deg, rgba(123,58,245,0.9) 0%, rgba(250,223,99,0.85) 100%)",
         }}
       >
-        <h1 className="text-5xl font-extrabold text-white">Inscrições</h1>
+        <h1 className="text-5xl font-extrabold text-white">Inscrição</h1>
         <p className="text-white mt-3">
-          Faça parte da história do futebol feminino brasileiro. Inscreva-se agora!
+          Preencha seus dados e faça parte da nossa história!
         </p>
         <button
           className="mt-6 inline-block px-6 py-3 rounded-full bg-yellow-400 hover:bg-yellow-300 text-black font-semibold shadow-md transition-all"
@@ -101,6 +91,7 @@ export default function FormularioInscricao() {
           onSubmit={handleSubmit}
           className="bg-white p-8 rounded-2xl shadow-md border border-gray-100 space-y-6"
         >
+          {/* campos */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium">Nome Completo *</label>
@@ -190,9 +181,7 @@ export default function FormularioInscricao() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium">
-                Time Atual (opcional)
-              </label>
+              <label className="block text-sm font-medium">Time Atual (opcional)</label>
               <input
                 name="time"
                 value={form.time}
@@ -203,9 +192,7 @@ export default function FormularioInscricao() {
             </div>
 
             <div className="md:col-span-2">
-              <label className="block text-sm font-medium">
-                Observações (opcional)
-              </label>
+              <label className="block text-sm font-medium">Observações (opcional)</label>
               <textarea
                 name="observacoes"
                 value={form.observacoes}
