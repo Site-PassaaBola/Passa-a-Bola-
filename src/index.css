@@ -2,6 +2,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800;900&display=swap');
 @import "tailwindcss";
 
+/* ...seu CSS existente... */
+
+html { scroll-behavior: smooth; }
+
 
 /* Variáveis customizadas */
 :root {
@@ -27,10 +31,21 @@ body {
   color: var(--ink);
 }
 
+/* TÍTULOS em preto por padrão */
 h1, h2, h3 {
-  color: var(--purple);
+  color: #000;
 }
 
+/* Links (mantidos) */
+a {
+  color: var(--purple);
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+/* Botões (mantidos) */
 button {
   background-color: var(--yellow);
   color: var(--ink);
@@ -38,17 +53,29 @@ button {
   padding: 8px 16px;
   transition: background-color 0.3s;
 }
-
 button:hover {
   background-color: var(--yellow-soft);
 }
 
-/* Links */
-a {
-  color: var(--purple);
-  text-decoration: none;
+/* Marca do topo (Bebas Neue) */
+.brand-title {
+  font-family: 'Bebas Neue', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  letter-spacing: 0.5px;
+  font-weight: 800;
 }
 
-a:hover {
-  text-decoration: underline;
+/* ===== Só o header roxo volta a ser branco ===== */
+.purple-header h1,
+.purple-header h2,
+.purple-header h3,
+.purple-header p,
+.purple-header span {
+  color: #fff !important;
+}
+/* Se alguém colocou text-black sem querer, neutraliza aqui */
+.purple-header .text-black,
+.purple-header .text-gray-500,
+.purple-header .text-gray-600,
+.purple-header .text-gray-700 {
+  color: #fff !important;
 }

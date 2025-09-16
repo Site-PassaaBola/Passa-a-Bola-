@@ -1,5 +1,7 @@
+// src/pages/Inicio.jsx
 import React from "react";
 import heroImg from "../assets/hero.jpg";
+import Campeonatos from "./Campeonatos";
 
 export default function Inicio() {
   return (
@@ -34,8 +36,9 @@ export default function Inicio() {
               </p>
 
               <div className="mt-6 flex flex-wrap gap-4">
+                {/* rola até a seção embutida de campeonatos */}
                 <a
-                  href="#/campeonatos"
+                  href="#campeonatos"
                   className="inline-flex items-center justify-center rounded-2xl px-6 py-3 font-extrabold uppercase tracking-wide bg-[#FADF63] !text-[#101010] hover:bg-[#FBEA9C] transition no-underline"
                 >
                   Ver campeonatos
@@ -73,6 +76,9 @@ export default function Inicio() {
           </div>
         </div>
       </section>
+
+      {/* CAMPEONATOS embutido logo abaixo */}
+      <Campeonatos embedded />
 
       {/* altura mínima */}
       <div className="w-full min-h-screen"></div>

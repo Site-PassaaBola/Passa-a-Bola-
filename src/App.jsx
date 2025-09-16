@@ -6,15 +6,16 @@ import { BrowserRouter as Router, Routes, Route, Link } from "react-router-dom";
 import Inicio from "./pages/Inicio";
 import Campeonatos from "./pages/Campeonatos";
 import Times from "./pages/Times";
+import TimePerfil from "./pages/TimePerfil"; // 👈 NOVO: página de perfil do time
 import Noticias from "./pages/Noticias";
 import Historia from "./pages/Historia";
 import Inscricoes from "./pages/Inscricoes";              // lista / histórico de inscrições
 import FormularioInscricao from "./pages/FormularioInscricao"; // formulário de inscrição
 
-// Estilos globais (Tailwind + o que você tiver)
+// Estilos globais
 import "./index.css";
 
-// Logo (ajuste o caminho se necessário)
+// Logo
 import logo from "./assets/logo.png";
 
 export default function App() {
@@ -26,11 +27,16 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Inicio />} />
             <Route path="/campeonatos" element={<Campeonatos />} />
+
+            {/* Times */}
             <Route path="/times" element={<Times />} />
+            <Route path="/time/:slug" element={<TimePerfil />} /> {/* 👈 NOVA ROTA */}
+
+            {/* Outras páginas */}
             <Route path="/noticias" element={<Noticias />} />
             <Route path="/historia" element={<Historia />} />
 
-            {/* fluxo de inscrições */}
+            {/* Fluxo de inscrições */}
             <Route path="/inscricao" element={<FormularioInscricao />} />
             <Route path="/inscricoes" element={<Inscricoes />} />
 
@@ -62,12 +68,17 @@ function Header() {
           <NavLink to="/noticias">Notícias</NavLink>
           <NavLink to="/historia">História</NavLink>
 
-          {/* botão "Inscrição" agora leva para a lista (/inscricoes) */}
           <Link
-            to="/inscricoes"
+            to="/inscricao"
             className="bg-purple text-white px-4 py-2 rounded-xl hover:bg-purple-700 transition-all"
           >
             Inscrição
+          </Link>
+          <Link
+            to="/inscricoes"
+            className="text-purple-600 font-semibold hover:text-purple-700"
+          >
+            Inscrições Realizadas
           </Link>
         </nav>
 
@@ -82,10 +93,7 @@ function Header() {
 
 function NavLink({ to, children }) {
   return (
-    <Link
-      to={to}
-      className="hover:text-purple-600 transition-colors"
-    >
+    <Link to={to} className="hover:text-purple-600 transition-colors">
       {children}
     </Link>
   );
@@ -112,10 +120,7 @@ function MobileMenu() {
           <Link onClick={() => setOpen(false)} to="/times" className="px-2 py-2 rounded hover:bg-gray-100">Times</Link>
           <Link onClick={() => setOpen(false)} to="/noticias" className="px-2 py-2 rounded hover:bg-gray-100">Notícias</Link>
           <Link onClick={() => setOpen(false)} to="/historia" className="px-2 py-2 rounded hover:bg-gray-100">História</Link>
-          
-          {/* aqui também corrigido para /inscricoes */}
-          <Link onClick={() => setOpen(false)} to="/inscricoes" className="px-2 py-2 rounded bg-purple text-white text-center">Inscrição</Link>
-          
+          <Link onClick={() => setOpen(false)} to="/inscricao" className="px-2 py-2 rounded bg-purple text-white text-center">Inscrição</Link>
           <Link onClick={() => setOpen(false)} to="/inscricoes" className="px-2 py-2 rounded hover:bg-gray-100 text-center">Inscrições Realizadas</Link>
         </div>
       )}

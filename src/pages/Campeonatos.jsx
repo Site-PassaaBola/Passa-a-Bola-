@@ -1,175 +1,324 @@
+// src/pages/Campeonatos.jsx
 import React from "react";
 
-// ===== IMPORTS (de src/pages -> ../assets) =====
-import Flamengo         from "../assets/Flamengo.png";
-import Corinthians      from "../assets/Corinthians.png";
-import Palmeiras        from "../assets/Palmeiras.png";
-import SaoPaulo         from "../assets/Brasao_do_Sao_Paulo_Futebol_Clube.svg.png";
-import Gremio           from "../assets/Gremio.png";
-import Internacional    from "../assets/Internacional.png";
+/* ========= Loader automático de imagens em src/assets/** ========= */
+const allImages = import.meta.glob("../assets/**/*.{png,jpg,jpeg,svg,webp}", {
+  eager: true,
+  import: "default",
+});
 
-import Cruzeiro         from "../assets/Cruzeiro.png";
-import Ferroviaria      from "../assets/Ferroviaria.png";
+const imgIndex = {};
+const norm = (s) =>
+  (s || "")
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
-import Botafogo         from "../assets/Botafogo.png";
-import TunaLuso         from "../assets/TunaLuso.png";
-import Coritiba         from "../assets/Coritiba.png";
-import RolimDeMoura     from "../assets/RolimDeMoura.png";
-import Santos           from "../assets/Santos.png";
-import PerolasNegras    from "../assets/PerolasNegras.png";
-import PindaSP          from "../assets/PindaSP.png";
-import DoceMel          from "../assets/DoceMel.png";
+Object.entries(allImages).forEach(([path, mod]) => {
+  const base = path.split("/").pop().replace(/\.(png|jpe?g|svg|webp)$/i, "");
+  imgIndex[norm(base)] = mod;
+});
 
-// logos pequenos dos chips de título
-import BrasileiraoFeminino from "../assets/BrasileiraoFeminino.png";
-import CopaBrasilLogo       from "../assets/CopaBrasil.png";
+const pick = (...cands) => {
+  for (const c of cands) {
+    if (!c) continue;
+    const s = norm(c);
+    if (imgIndex[s]) return imgIndex[s];
+    const loose = Object.keys(imgIndex).find((k) => k.includes(s));
+    if (loose) return imgIndex[loose];
+  }
+  return null;
+};
 
-// fallback
-import Generic from "../assets/logo.png";
+/* ========= Mapeamento de nomes de time -> arquivo ========= */
+const alias = {
+  "sao-paulo": "brasao-do-sao-paulo-futebol-clube-svg",
+  "doce-mel": "docemel",
+  "pinda-sp": "pindasp",
+  botafogo: "botafogo",
+  "tuna-luso": "tunaluso",
+  coritiba: "cortiba",
+  "rolim-de-moura": "rolimdemoura",
+  santos: "santos",
+  "perolas-negras": "perolasnegras",
+  cruzeiro: "cruzeiro",
+  corinthians: "corinthians",
+  ferroviaria: "ferroviaria",
+  flamengo: "flamengo",
+  palmeiras: "palmeiras",
+};
+const teamLogo = (name) => {
+  const b = norm(name);
+  return pick(alias[b], b, b.replace(/-futebol-clube|fc|sc|ac/g, ""), b.replace(/-sp/g, ""));
+};
 
-// Escudo com fallback automático
-function Crest({ src, alt, sm = false }) {
-  return (
-    <span className={`inline-block ${sm ? "w-6 h-6" : "w-10 h-10"} mr-2`}>
-      <img
-        src={src || Generic}
-        alt={alt}
-        className="object-contain w-full h-full"
-        onError={(e) => { e.currentTarget.onerror = null; e.currentTarget.src = Generic; }}
-      />
-    </span>
-  );
-}
+/* ========= Logos dos HEADERS ========= */
+const headerA1 = pick("BrasileiraoFeminino", "BrasileiraFeminino", "brasileirao-feminino", "feminino-a1");
+const headerCopa = pick("CopaBrasil", "copa-do-brasil-feminina", "copa-brasil-feminina");
+
+/* ========= Dados mock ========= */
+const tabela = [
+  { pos: 1, time: "Cruzeiro", pts: 35, vit: 10, e: 2, d: 0, sg: 10, pj: 13, logo: teamLogo("Cruzeiro") },
+  { pos: 2, time: "Corinthians", pts: 27, vit: 8, e: 3, d: 2, sg: 10, pj: 13, logo: teamLogo("Corinthians") },
+  { pos: 3, time: "São Paulo", pts: 25, vit: 7, e: 4, d: 2, sg: 10, pj: 13, logo: teamLogo("São Paulo") },
+  { pos: 4, time: "Ferroviária", pts: 24, vit: 7, e: 3, d: 3, sg: 17, pj: 12, logo: teamLogo("Ferroviária") },
+  { pos: 5, time: "Flamengo", pts: 24, vit: 7, e: 3, d: 3, sg: 15, pj: 13, logo: teamLogo("Flamengo") },
+  { pos: 6, time: "Palmeiras", pts: 20, vit: 6, e: 2, d: 5, sg: 10, pj: 13, logo: teamLogo("Palmeiras") },
+];
+
+const jogos = [
+  { m: { n: "Doce Mel", l: teamLogo("Doce Mel") }, v: { n: "Pinda-SP", l: teamLogo("Pinda-SP") }, dh: "09/06 • 15:00", est: "WALDOMIRO CRUZ" },
+  { m: { n: "Botafogo", l: teamLogo("Botafogo") }, v: { n: "Tuna Luso", l: teamLogo("Tuna Luso") }, dh: "10/06 • 10:00", est: "NILTON SANTOS" },
+  { m: { n: "Coritiba", l: teamLogo("Coritiba") }, v: { n: "Rolim de Moura", l: teamLogo("Rolim de Moura") }, dh: "11/06 • 15:30", est: "CT BAYARD OSNA" },
+  { m: { n: "Santos", l: teamLogo("Santos") }, v: { n: "Pérolas Negras", l: teamLogo("Pérolas Negras") }, dh: "11/06 • 20:00", est: "VILA BELMIRO" },
+];
+
+/* ========= Tamanhos/alturas ========= */
+const SZ = {
+  headerH: 88,         // altura fixa das faixas (amarela e roxa)
+  headerLogoA1: 56,    // logo topo amarelo
+  headerLogoCopa: 68,  // logo topo roxo (maior, sem mudar a faixa)
+  tableLogo: 30,
+  matchLogo: 40,
+};
 
 export default function Campeonatos() {
-  const classificacaoMock = [
-    { pos: 1, time: "Cruzeiro",    pts: 35, vit: 10, e: 2,  d: 0, sg: 13, pj: 13, logo: Cruzeiro },
-    { pos: 2, time: "Corinthians", pts: 27, vit: 8,  e: 3,  d: 2, sg: 10, pj: 13, logo: Corinthians },
-    { pos: 3, time: "São Paulo",   pts: 25, vit: 7,  e: 4,  d: 2, sg: 10, pj: 13, logo: SaoPaulo },
-    { pos: 4, time: "Ferroviária", pts: 24, vit: 7,  e: 3,  d: 3, sg: 17, pj: 12, logo: Ferroviaria },
-    { pos: 5, time: "Flamengo",    pts: 24, vit: 7,  e: 3,  d: 3, sg: 15, pj: 13, logo: Flamengo },
-    { pos: 6, time: "Palmeiras",   pts: 20, vit: 6,  e: 2,  d: 5, sg: 10, pj: 13, logo: Palmeiras },
-  ];
-
-  const copaDoBrasil = [
-    { data: "09/06", hora: "15:00", casa: "Doce Mel",   casaLogo: DoceMel,      fora: "Pinda-SP",       foraLogo: PindaSP,       estadio: "Waldomirão" },
-    { data: "10/06", hora: "10:00", casa: "Botafogo",   casaLogo: Botafogo,     fora: "Tuna Luso",      foraLogo: TunaLuso,      estadio: "NILTON SANTOS" },
-    { data: "11/06", hora: "15:30", casa: "Coritiba",   casaLogo: Coritiba,     fora: "Rolim de Moura", foraLogo: RolimDeMoura,  estadio: "Ct Bayard Osna" },
-    { data: "11/06", hora: "20:00", casa: "Santos",     casaLogo: Santos,       fora: "Pérolas Negras", foraLogo: PerolasNegras, estadio: "VILA BELMIRO" },
-  ];
-
-  const resultadosRecentes = [
-    { data: "22/05", casa: "Palmeiras",   casaLogo: Palmeiras,    placar: "0x1", fora: "Cruzeiro",   foraLogo: Cruzeiro },
-    { data: "26/05", casa: "Ferroviária", casaLogo: Ferroviaria,  placar: "1x0", fora: "São Paulo",  foraLogo: SaoPaulo },
-    { data: "26/05", casa: "Corinthians", casaLogo: Corinthians,  placar: "0x1", fora: "Flamengo",   foraLogo: Flamengo },
-  ];
-
   return (
-    <div className="p-6">
-      <h1 className="text-3xl font-bold mb-6 text-ink">CAMPEONATOS EM ANDAMENTO</h1>
+    <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-black text-[#6D28D9] text-center tracking-wide mb-6">
+        CAMPEONATOS EM ANDAMENTO
+      </h1>
 
-      <div className="grid md:grid-cols-2 gap-6">
-        {/* Tabela Brasileiro Feminino */}
-        <div className="bg-panel-soft rounded-xl shadow p-4">
-          <div className="bg-yellow text-ink font-bold p-3 rounded-t-xl flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <img src={BrasileiraoFeminino} alt="Brasileirão Feminino" className="w-8 h-8"/>
-              Campeonato Brasileiro de Futebol Feminino A1
+      <div className="grid gap-6 md:gap-8 md:grid-cols-2">
+        {/* ===== ESQUERDA: TABELA A1 ===== */}
+        <section className="bg-white rounded-2xl shadow-[0_10px_24px_rgba(10,10,20,.06)] overflow-hidden">
+          <div className="bg-[#FADF63] rounded-t-2xl px-5 flex items-center" style={{ height: SZ.headerH }}>
+            <div className="flex items-center gap-3">
+              {headerA1 && (
+                <img
+                  src={headerA1}
+                  alt="Brasileirão Feminino"
+                  style={{ width: SZ.headerLogoA1, height: SZ.headerLogoA1, maxHeight: SZ.headerH - 16 }}
+                  className="object-contain"
+                />
+              )}
+              <div className="leading-tight">
+                <h2 className="text-[20px] md:text-[22px] font-extrabold uppercase">
+                  CAMPEONATO BRASILEIRO DE FUTEBOL FEMININO A1
+                </h2>
+                <p className="text-[12px] md:text-[13px] font-semibold tracking-wide uppercase">
+                  RODADA 18 • CLASSIFICAÇÃO
+                </p>
+              </div>
             </div>
-            <span>Rodada 18 • Classificação</span>
           </div>
 
-          <table className="w-full mt-4 table-auto text-sm">
-            <thead className="text-left border-b border-line">
-              <tr>
-                <th>POS</th>
-                <th>TIME</th>
-                <th>PTS</th>
-                <th>VIT</th>
-                <th>E</th>
-                <th>D</th>
-                <th>SG</th>
-                <th>PJ</th>
-              </tr>
-            </thead>
-            <tbody>
-              {classificacaoMock.map(t => (
-                <tr key={t.pos} className="border-b border-line2">
-                  <td>{t.pos}</td>
-                  <td className="flex items-center">
-                    <Crest src={t.logo} alt={t.time} />
-                    {t.time}
-                  </td>
-                  <td>{t.pts}</td>
-                  <td>{t.vit}</td>
-                  <td>{t.e}</td>
-                  <td>{t.d}</td>
-                  <td>{t.sg}</td>
-                  <td>{t.pj}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-          <div className="mt-3 text-right">
-            <a className="text-purple font-semibold hover:underline" href="#tabela">
+          <Tabela rows={tabela} />
+
+          <div className="px-5 py-4">
+            <a href="#" className="inline-block text-[#7B3AF5] font-semibold hover:underline">
               Ver Tabela Completa →
             </a>
           </div>
-        </div>
+        </section>
 
-        {/* Copa do Brasil */}
-        <div className="bg-panel-soft rounded-xl shadow p-4">
-          <div className="bg-purple text-white font-bold p-3 rounded-t-xl flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <img src={CopaBrasilLogo} alt="Copa do Brasil Feminina" className="w-8 h-8"/>
-              Copa do Brasil Feminina
+        {/* ===== DIREITA: COPA DO BRASIL ===== */}
+        <section className="bg-white rounded-2xl shadow-[0_10px_24px_rgba(10,10,20,.06)] overflow-hidden">
+          <div className="bg-[#7B3AF5] rounded-t-2xl px-5 flex items-center" style={{ height: SZ.headerH }}>
+            <div className="flex items-center gap-3">
+              {headerCopa && (
+                <img
+                  src={headerCopa}
+                  alt="Copa do Brasil Feminina"
+                  style={{ width: SZ.headerLogoCopa, height: SZ.headerLogoCopa, maxHeight: SZ.headerH - 16 }}
+                  className="object-contain"
+                />
+              )}
+              <div className="leading-snug">
+                <h2 className="text-[20px] md:text-[22px] font-extrabold tracking-wide uppercase">
+                  COPA DO BRASIL FEMININA
+                </h2>
+                <p className="text-[12px] md:text-[13px] font-semibold tracking-wide uppercase">
+                  QUARTAS DE FINAL • PRÓXIMOS JOGOS
+                </p>
+              </div>
             </div>
-            <span>Quartas de Final • Próximos Jogos</span>
           </div>
 
-          <ul className="mt-4 space-y-3">
-            {copaDoBrasil.map((j, i) => (
-              <li key={i} className="flex justify-between items-center border-b border-line2 pb-2">
-                <div className="flex items-center gap-2">
-                  <Crest sm src={j.casaLogo} alt={j.casa} />
-                  {j.casa}
-                </div>
-                <div className="text-center">
-                  <div>{j.data}</div>
-                  <div>{j.hora}</div>
-                  <div className="text-xs">{j.estadio}</div>
-                </div>
-                <div className="flex items-center gap-2">
-                  {j.fora}
-                  <Crest sm src={j.foraLogo} alt={j.fora} />
-                </div>
-              </li>
+          <div className="p-4 sm:p-5 space-y-3">
+            {jogos.map((j, i) => (
+              <Jogo key={i} j={j} />
             ))}
-          </ul>
-          <div className="mt-3 text-right">
-            <a className="text-yellow font-semibold hover:underline" href="#chaveamento">
+          </div>
+
+          <div className="px-5 py-4">
+            <a href="#" className="inline-block text-[#7B3AF5] font-semibold hover:underline">
               Ver Chaveamento Completo →
             </a>
           </div>
-        </div>
+        </section>
       </div>
 
-      {/* RESULTADOS RECENTES */}
-      <div className="mt-6">
-        <h3 className="text-xl font-bold mb-3 flex items-center gap-2">⏱️ RESULTADOS RECENTES</h3>
-        <div className="flex overflow-x-auto gap-3">
-          {resultadosRecentes.map((r, i) => (
-            <div key={i} className="bg-panel rounded-lg p-3 flex-shrink-0 w-60">
-              <div className="text-sm mb-1">{r.data}</div>
-              <div className="flex items-center gap-2">
-                <Crest sm src={r.casaLogo} alt={r.casa} />
-                <span>{r.casa} <strong>{r.placar}</strong> {r.fora}</span>
-                <Crest sm src={r.foraLogo} alt={r.fora} />
-              </div>
-            </div>
+      <Resultados />
+    </main>
+  );
+}
+
+/* ================= SUBCOMPONENTES ================= */
+function Logo({ src, alt, size }) {
+  return src ? (
+    <img src={src} alt={alt} style={{ width: size, height: size }} className="object-contain shrink-0" />
+  ) : (
+    <div
+      style={{ width: size, height: size }}
+      className="rounded-full bg-gray-200 grid place-items-center text-[10px] font-bold text-gray-600 shrink-0"
+    >
+      {alt?.[0] ?? "?"}
+    </div>
+  );
+}
+
+/* ===== Tabela A1 (alinhamento dos headers/valores) ===== */
+function Tabela({ rows }) {
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full text-left table-fixed">
+        <colgroup>
+          <col style={{ width: "60px" }} />   {/* Pos */}
+          <col />                              {/* Time */}
+          <col style={{ width: "64px" }} />   {/* Pts */}
+          <col style={{ width: "56px" }} />   {/* Vit */}
+          <col style={{ width: "56px" }} />   {/* E */}
+          <col style={{ width: "56px" }} />   {/* D */}
+          <col style={{ width: "64px" }} />   {/* SG */}
+          <col style={{ width: "64px" }} />   {/* PJ */}
+        </colgroup>
+
+        <thead>
+          <tr className="text-gray-500 text-xs sm:text-sm uppercase">
+            <th className="py-3 pl-5 pr-2">Pos</th>
+            <th className="py-3 px-2">Time</th>
+            <th className="py-3 pr-6 text-right">Pts</th>
+            <th className="py-3 pr-6 text-right">Vit</th>
+            <th className="py-3 pr-6 text-right">E</th>
+            <th className="py-3 pr-6 text-right">D</th>
+            <th className="py-3 pr-6 text-right">SG</th>
+            <th className="py-3 pr-6 text-right">PJ</th>
+          </tr>
+        </thead>
+
+        <tbody className="divide-y divide-gray-100">
+          {rows.map((r) => (
+            <tr key={r.pos} className="text-[15px]">
+              <td className="py-3 pl-5 pr-2 font-bold tabular-nums">{r.pos}</td>
+              <td className="py-3 px-2">
+                <div className="flex items-center gap-3">
+                  <Logo src={r.logo} alt={r.time} size={SZ.tableLogo} />
+                  <span className="font-medium leading-none">{r.time}</span>
+                </div>
+              </td>
+              <td className="py-3 pr-6 text-right font-extrabold tabular-nums">{r.pts}</td>
+              <td className="py-3 pr-6 text-right tabular-nums">{r.vit}</td>
+              <td className="py-3 pr-6 text-right tabular-nums">{r.e}</td>
+              <td className="py-3 pr-6 text-right tabular-nums">{r.d}</td>
+              <td className="py-3 pr-6 text-right tabular-nums">{r.sg}</td>
+              <td className="py-3 pr-6 text-right tabular-nums">{r.pj}</td>
+            </tr>
           ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Lado({ n, l, align }) {
+  const base = "flex items-center gap-3 min-w-0";
+  return (
+    <div className={`${base} ${align === "right" ? "justify-end" : ""}`}>
+      {align === "left" && <Logo src={l} alt={n} size={SZ.matchLogo} />}
+      <span
+        className={`uppercase font-extrabold tracking-wider leading-none text-[14px] sm:text-[15px] ${
+          align === "right" ? "text-right" : ""
+        } truncate`}
+      >
+        {n}
+      </span>
+      {align === "right" && <Logo src={l} alt={n} size={SZ.matchLogo} />}
+    </div>
+  );
+}
+
+function Jogo({ j }) {
+  return (
+    <div
+      className="bg-gray-50 rounded-xl border border-gray-200 px-4 py-3 grid items-center gap-3"
+      style={{ gridTemplateColumns: "minmax(0,1fr) 200px minmax(0,1fr)" }}
+    >
+      <Lado n={j.m.n} l={j.m.l} align="left" />
+      <div className="text-center leading-tight">
+        <div className="font-extrabold tracking-wider text-[14px] sm:text-[15px] uppercase">
+          {j.dh}
+        </div>
+        <div className="text-[11px] text-gray-500 tracking-widest uppercase">
+          {j.est}
+        </div>
+      </div>
+      <Lado n={j.v.n} l={j.v.l} align="right" />
+    </div>
+  );
+}
+
+/* ====== ALTERADO AQUI: data como texto simples (sem select) ====== */
+function ResultadoCard({ r }) {
+  return (
+    <div className="relative bg-white rounded-2xl border border-gray-200 shadow-sm p-4">
+      <div className="absolute top-3 left-3">
+        <span className="text-xs font-semibold text-gray-600">{r.data}</span>
+      </div>
+
+      <div className="flex items-center justify-center gap-6 mt-6">
+        <div className="flex items-center gap-2">
+          <Logo src={r.m.l} alt={r.m.n} size={SZ.matchLogo} />
+          <span className="font-semibold leading-none">{r.m.n}</span>
+        </div>
+
+        <span className="text-lg font-extrabold tracking-wider tabular-nums leading-none">
+          {r.placar}
+        </span>
+
+        <div className="flex items-center gap-2">
+          <span className="font-semibold leading-none">{r.v.n}</span>
+          <Logo src={r.v.l} alt={r.v.n} size={SZ.matchLogo} />
         </div>
       </div>
     </div>
+  );
+}
+
+function Resultados() {
+  const dados = [
+    { data: "22/05", m: { n: "Palmeiras", l: teamLogo("Palmeiras") }, v: { n: "Cruzeiro", l: teamLogo("Cruzeiro") }, placar: "0x1" },
+    { data: "12/04", m: { n: "Ferroviária", l: teamLogo("Ferroviária") }, v: { n: "São Paulo", l: teamLogo("São Paulo") }, placar: "1x0" },
+    { data: "09/06", m: { n: "Corinthians", l: teamLogo("Corinthians") }, v: { n: "Flamengo", l: teamLogo("Flamengo") }, placar: "0x1" },
+  ];
+  return (
+    <section className="mt-8 md:mt-10">
+      <div className="bg-white rounded-2xl shadow-[0_10px_24px_rgba(10,10,20,.06)] p-4 sm:p-5">
+        <div className="flex items-center gap-3 mb-4">
+          <span className="text-2xl">⏱️</span>
+          <h3 className="text-xl md:text-2xl font-extrabold uppercase tracking-wide">
+            Resultados Recentes
+          </h3>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {dados.map((r, i) => (
+            <ResultadoCard key={i} r={r} />
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }
