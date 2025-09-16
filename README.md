@@ -1,3 +1,14 @@
+## 🤝 Colaboradores
+
+| Nome                          | RM      |
+|-------------------------------|---------|
+| Luis Gustavo Vasconcelos Costa| 566023  |
+| Anna Clara Ruggeri da Silva   | 565553  |
+| Matheus Cerciari Reis         | 565817  |
+| Henrique Vicente Vicenterm    | 564116  |
+| Arthur Gaspare Gil            | 555746  |
+
+
 ## 📜 Explicação do Projeto
 
 O **Passa a Bola** é uma plataforma digital focada em **futebol feminino**. O principal objetivo é dar **visibilidade** ao futebol feminino no Brasil, criando um ambiente de fácil acesso para jogadoras, clubes e torcedores interagirem com notícias, eventos e dados sobre a modalidade. O projeto foi criado para servir como um ponto de encontro digital para todas as pessoas que acompanham ou fazem parte do futebol feminino.
@@ -27,16 +38,10 @@ O projeto foi desenvolvido com as seguintes tecnologias e ferramentas:
 7. **CSS (Flexbox e Grid)**:
 - Para o layout da plataforma, foram usadas tecnologias de layout modernas como Flexbox e Grid. Essas tecnologias permitem criar layouts responsivos e dinâmicos que se adaptam a diferentes tamanhos de tela.
 
+## ⚙️ Links
 
-## 🤝 Colaboradores
-
-| Nome                          | RM      |
-|-------------------------------|---------|
-| Luis Gustavo Vasconcelos Costa| 566023  |
-| Anna Clara Ruggeri da Silva   | 565553  |
-| Matheus Cerciari Reis         | 565817  |
-| Henrique Vicente Vicenterm    | 564116  |
-| Arthur Gaspare Gil            | 555746  |
+Vercel:
+Repositorio:
 
 
 
