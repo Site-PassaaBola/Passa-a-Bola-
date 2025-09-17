@@ -8,7 +8,6 @@ Além de ser um **projeto acadêmico da FIAP**, o site também é uma **iniciati
 ---
 👥 Integrantes
 
-👥 Integrantes
 
 Luis Gustavo Vasconcelos Costa — RM 566023
 
@@ -78,4 +77,5 @@ Fortalecer o futebol feminino como movimento cultural, esportivo e social.
 
 Uso acadêmico e social – FIAP.
 ## 📂 Estrutura do Projeto
+
 
