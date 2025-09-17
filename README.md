@@ -8,11 +8,17 @@ Além de ser um **projeto acadêmico da FIAP**, o site também é uma **iniciati
 ---
 👥 Integrantes
 
-Luis Gustavo Vasconcelos Costa	566023
-Anna Clara Ruggeri da Silva	565553
-Matheus Cerciari Reis	565817
-Henrique Vicente Vicenterm	564116
-Arthur Gaspare Gil	555746
+👥 Integrantes
+
+Luis Gustavo Vasconcelos Costa — RM 566023
+
+Anna Clara Ruggeri da Silva — RM 565553
+
+Matheus Cerciari Reis — RM 565817
+
+Henrique Vicente Vicenterm — RM 564116
+
+Arthur Gaspare Gil — RM 555746
 
 ---
 
@@ -72,3 +78,4 @@ Fortalecer o futebol feminino como movimento cultural, esportivo e social.
 
 Uso acadêmico e social – FIAP.
 ## 📂 Estrutura do Projeto
+
