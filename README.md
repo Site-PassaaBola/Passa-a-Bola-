@@ -23,7 +23,7 @@ Arthur Gaspare Gil — RM 555746
 
 ## 🌍 Links Importantes
 - 🔗 **Deploy (Vercel):** 
-- 🏢 **Organização (GitHub/Institucional):** https://github.com/Site-PassaaBola/Passa-a-Bola-/tree/main 
+- 🏢 **Organização (GitHub/Institucional):** https://github.com/Site-PassaaBola/Passa-a-Bola-/tree/main
 
 ---
 
