@@ -76,6 +76,6 @@ Fortalecer o futebol feminino como movimento cultural, esportivo e social.
 📄 Licença
 
 Uso acadêmico e social – FIAP.
-## 📂 Estrutura do Projeto
+
 
 
